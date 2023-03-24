@@ -25,8 +25,8 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Image Grid.ColumnSpan="4" Grid.RowSpan="3" Width="1080"  Height="700" Source="T:\classes\e3fi1\Team WWM\wer_wird_millionaer\wer_wird_millionaer\WWM_background.png" Margin="0,-4,0,-12"/>
-        <Image Grid.ColumnSpan="4" Grid.RowSpan="3" VerticalAlignment="Top" HorizontalAlignment="Center" Width="50"  Height="50" Source="T:\classes\e3fi1\Team WWM\wer_wird_millionaer\wer_wird_millionaer\remove50-50.png"/>
+        <Image Grid.ColumnSpan="4" Grid.RowSpan="3" Width="1080"  Height="720" Source="WWM_background.png" Margin="0,-4,0,-12"/>
+        <Image Grid.ColumnSpan="4" Grid.RowSpan="3" VerticalAlignment="Top" HorizontalAlignment="Center" Width="50"  Height="50" Source="remove50-50.png"/>
         <!--Frage Start-->
         <Polygon HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="2" Fill="#244095" Stroke="Gold" >
             <Polygon.Points>
