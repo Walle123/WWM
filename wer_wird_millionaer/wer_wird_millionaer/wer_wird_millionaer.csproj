@@ -7,4 +7,11 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="WWM_background.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\WWM_background.png" />
+  </ItemGroup>
 </Project>
