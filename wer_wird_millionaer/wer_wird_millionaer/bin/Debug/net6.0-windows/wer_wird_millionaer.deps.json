@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v6.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v6.0": {
+      "wer_wird_millionaer/1.0.0": {
+        "runtime": {
+          "wer_wird_millionaer.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "wer_wird_millionaer/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

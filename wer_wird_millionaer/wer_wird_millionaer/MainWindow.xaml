@@ -1,0 +1,157 @@
+﻿<Window x:Class="wer_wird_millionaer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:wer_wird_millionaer"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="720" Width="1080" ResizeMode="NoResize">
+    <Window.Resources>
+        <Style TargetType="Label">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Margin" Value="10 0 0 0"/>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Image Grid.ColumnSpan="4" Grid.RowSpan="3" Width="1080"  Height="700" Source="T:\classes\e3fi1\Team WWM\wer_wird_millionaer\wer_wird_millionaer\WWM_background.png" Margin="0,-4,0,-12"/>
+        <Image Grid.ColumnSpan="4" Grid.RowSpan="3" VerticalAlignment="Top" HorizontalAlignment="Center" Width="50"  Height="50" Source="T:\classes\e3fi1\Team WWM\wer_wird_millionaer\wer_wird_millionaer\remove50-50.png"/>
+        <!--Frage Start-->
+        <Polygon HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="2" Fill="#244095" Stroke="Gold" >
+            <Polygon.Points>
+                <Point X="0" Y="60"></Point>
+                <Point X="100" Y="120"></Point>
+                <Point X="500" Y="120"></Point>
+                <Point X="600" Y="60"></Point>
+                <Point X="500" Y="30"></Point>
+                <Point X="100" Y="30"></Point>
+            </Polygon.Points>
+        </Polygon>
+        <TextBlock Grid.ColumnSpan="2" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Center" Width="400" Margin="0 30 0 0" DataContext="{Binding Path=FragenText}" IsEnabled="{Binding Path=FragenText}" Text="{Binding}" Foreground="White"/>
+        <!--Frage Ende-->
+        <!--Antwort1 Start-->
+        <Polygon Stroke="Gold" Grid.Row="1" Fill="{Binding Path=Color_a}" HorizontalAlignment="Center" VerticalAlignment="Top" Height="100" Margin="0,77,0,0" Cursor="Hand">
+            <Polygon.InputBindings>
+                <MouseBinding MouseAction="LeftClick" Command="{Binding Path=click_answer}" CommandParameter="a"/>
+            </Polygon.InputBindings>
+            <Polygon.Points>
+                <Point X="0" Y="50"/>
+                <Point X="70" Y="80"/>
+                <Point X="280" Y="80"/>
+                <Point X="350" Y="50"/>
+                <Point X="280" Y="20"/>
+                <Point X="70" Y="20"/>
+            </Polygon.Points>
+        </Polygon>
+        <TextBlock Grid.Row="1" Grid.Column="0" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" Width="200" Margin="0 20 0 0" Text="{Binding Path=Antwort1Text}" Foreground="White" Cursor="Hand">
+            <TextBlock.InputBindings>
+                <MouseBinding MouseAction="LeftClick" Command="{Binding Path=click_answer}" CommandParameter="a"/>
+            </TextBlock.InputBindings>
+        </TextBlock>
+        <!--Antwort1 Ende-->
+        <!--Antwort2 Start-->
+        <Polygon Stroke="Gold" Grid.Row="1" Grid.Column="1" Fill="{Binding Path=Color_b}" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Hand">
+            <Polygon.InputBindings>
+                <MouseBinding MouseAction="LeftClick" Command="{Binding Path=click_answer}" CommandParameter="b"/>
+            </Polygon.InputBindings>
+            <Polygon.Points>
+                <Point X="0" Y="50"/>
+                <Point X="70" Y="80"/>
+                <Point X="280" Y="80"/>
+                <Point X="350" Y="50"/>
+                <Point X="280" Y="20"/>
+                <Point X="70" Y="20"/>
+            </Polygon.Points>
+        </Polygon>
+        <TextBlock Grid.Row="1" Grid.Column="1" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" Width="200" Margin="0 20 0 0" Text="{Binding Path=Antwort2Text}" Foreground="White" Cursor="Hand">
+            <TextBlock.InputBindings>
+                <MouseBinding MouseAction="LeftClick" Command="{Binding Path=click_answer}" CommandParameter="b"/>
+            </TextBlock.InputBindings>
+        </TextBlock>
+        <!--Antwort2 Ende-->
+        <!--Antwort3 Start-->
+        <Polygon Stroke="Gold" Grid.Row="2" Grid.Column="0" Fill="{Binding Path=Color_c}" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Hand">
+            <Polygon.InputBindings>
+                <MouseBinding MouseAction="LeftClick" Command="{Binding Path=click_answer}" CommandParameter="c"/>
+            </Polygon.InputBindings>
+            <Polygon.Points>
+                <Point X="0" Y="50"/>
+                <Point X="70" Y="80"/>
+                <Point X="280" Y="80"/>
+                <Point X="350" Y="50"/>
+                <Point X="280" Y="20"/>
+                <Point X="70" Y="20"/>
+            </Polygon.Points>
+        </Polygon>
+        <TextBlock Grid.Row="2" Grid.Column="0" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" Width="200" Margin="0 20 0 0" Text="{Binding Path=Antwort3Text}" Foreground="White" Cursor="Hand">
+            <TextBlock.InputBindings>
+                <MouseBinding MouseAction="LeftClick" Command="{Binding Path=click_answer}" CommandParameter="c"/>
+            </TextBlock.InputBindings>
+        </TextBlock>
+        <!--Antwort3 Ende-->
+        <!--Antwort4 Start-->
+        <Polygon Stroke="Gold" Grid.Row="2" Grid.Column="1" Fill="{Binding Path=Color_d}" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Hand">
+            <Polygon.InputBindings>
+                <MouseBinding MouseAction="LeftClick" Command="{Binding Path=click_answer}" CommandParameter="d"/>
+            </Polygon.InputBindings>
+            <Polygon.Points>
+                <Point X="0" Y="50"/>
+                <Point X="70" Y="80"/>
+                <Point X="280" Y="80"/>
+                <Point X="350" Y="50"/>
+                <Point X="280" Y="20"/>
+                <Point X="70" Y="20"/>
+            </Polygon.Points>
+        </Polygon>
+        <TextBlock Grid.Row="2" Grid.Column="1" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" Width="200" Margin="0 20 0 0" Text="{Binding Path=Antwort4Text}" Foreground="White" Cursor="Hand">
+            <TextBlock.InputBindings>
+                <MouseBinding MouseAction="LeftClick" Command="{Binding Path=click_answer}" CommandParameter="d"/>
+            </TextBlock.InputBindings>
+        </TextBlock>
+        <!--Antwort4 Ende-->
+
+        <Border Background="DarkBlue" Grid.Column="3" Grid.RowSpan="3" CornerRadius="3" BorderThickness="2" BorderBrush="Gold"  Width="150" VerticalAlignment="Center" HorizontalAlignment="Center" Height="480"/>
+        <Polygon Grid.Column="3" Grid.RowSpan="3" Fill="Gold" Stroke="Gray" Margin="105 543 0 0">
+            <Polygon.Points>
+                <Point X="0" Y="15"/>
+                <Point X="15" Y="0"/>
+                <Point X="95" Y="0"/>
+                <Point X="110" Y="15"/>
+                <Point X="95" Y="30"/>
+                <Point X="15" Y="30"/>
+            </Polygon.Points>
+        </Polygon>
+        <Border Grid.Column="3" Grid.RowSpan="3" CornerRadius="3" BorderThickness="2" BorderBrush="Gold"  Width="150" VerticalAlignment="Center" HorizontalAlignment="Center" Height="480">
+            <StackPanel> 
+                <Label Content="€ 1 MILLION" />
+                <Label Content="€ 500.000"/>
+                <Label Content="€ 125.000"/>
+                <Label Content="€ 64.000"/>
+                <Label Content="€ 32.000"/>
+                <Label Content="€ 16.000"/>
+                <Label Content="€ 8.000"/>
+                <Label Content="€ 4.000"/>
+                <Label Content="€ 2.000"/>
+                <Label VerticalAlignment="Center" Content="€ 1.000"/>
+                <Label Content="€ 500"/>
+                <Label Content="€ 300"/>
+                <Label Content="€ 200"/>
+                <Label Content="€ 100"/>
+                <Label Content="€ 50"/>
+            </StackPanel>
+        </Border>
+        
+    </Grid>
+
+</Window>
