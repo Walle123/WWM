@@ -8,10 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\remove5050.png" />
     <None Remove="WWM_background.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Images\remove5050.png" />
     <Resource Include="Images\WWM_background.png" />
   </ItemGroup>
 </Project>

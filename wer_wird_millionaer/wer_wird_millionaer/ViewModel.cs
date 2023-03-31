@@ -16,9 +16,12 @@ namespace wer_wird_millionaer
     {
         public ICommand click_answer { get; private set; }
         DispatcherTimer dt = new DispatcherTimer();
+        DispatcherTimer spannungsTimer = new DispatcherTimer();
+        DispatcherTimer delay = new DispatcherTimer();
         private string defaultColor = "#244095";
         private string correctColor = "LightGreen";
         private string falseColor = "#ff5959";
+        private string spannungColor = "Gold";
         private string color_a;
         private string color_b;
         private string color_c;
@@ -30,8 +33,44 @@ namespace wer_wird_millionaer
         private string antwort4Text = "";
         private int runde = 0;
         private string rightAnswer = "";
+        private string userAnswer = "";
+        private string margin = "112 551 0 0";
+        private string[] stufenFarben = new string[] {"black", "white", "white", "white", "white", "white", "white", "white", "white", "white", "white", "white", "white", "white", "white" };
+        private bool disabled = false;
+        private string cursor = "Hand";
+        private int spannungsTicks = 5;
+        private int currSpannungsTick = 0;
         Random rnd = new Random();
         Quiz quiz = new Quiz();
+
+        public string Cursor
+        {
+            get { return cursor; }
+            set
+            {
+                cursor = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Cursor)));
+            }
+        }
+
+        public string Margin
+        {
+            get { return margin; }
+            set
+            {
+                margin = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Margin)));
+            }
+        }
+        public string[] StufenFarben
+        {
+            get { return stufenFarben; }
+            set
+            {
+                stufenFarben = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StufenFarben)));
+            }
+        }
         public string FragenText
         {
             get { return fragenText; }
@@ -119,11 +158,61 @@ namespace wer_wird_millionaer
             click_answer = new RelayCommand<string>(CheckAnswer);
             dt.Interval = TimeSpan.FromSeconds(2);
             dt.Tick += ResetColor;
+            spannungsTimer.Interval = TimeSpan.FromMilliseconds(200);
+            spannungsTimer.Tick += ErzeugeSpannung;
+            delay.Interval = TimeSpan.FromMilliseconds(50);
+            delay.Tick += CheckUserAnswer;
             color_a = defaultColor;
             color_b = defaultColor;
             color_c = defaultColor;
             color_d = defaultColor;
             loadText();
+        }
+
+        private void ErzeugeSpannung(object? sender, EventArgs e)
+        {
+            if (currSpannungsTick>=spannungsTicks)
+            {
+                spannungsTimer.Stop();
+                delay.Start();
+            }
+            if (currSpannungsTick % 2 == 0)
+            {
+                switch (userAnswer)
+                {
+                    case "a":
+                        Color_a = spannungColor;
+                        break;
+                    case "b":
+                        Color_b = spannungColor;
+                        break;
+                    case "c":
+                        Color_c = spannungColor;
+                        break;
+                    case "d":
+                        Color_d = spannungColor;
+                        break;
+                }
+            }
+            else
+            {
+                switch (userAnswer)
+                {
+                    case "a":
+                        Color_a = defaultColor;
+                        break;
+                    case "b":
+                        Color_b = defaultColor;
+                        break;
+                    case "c":
+                        Color_c = defaultColor;
+                        break;
+                    case "d":
+                        Color_d = defaultColor;
+                        break;
+                }
+            }
+            currSpannungsTick++;
         }
 
         private void ResetColor(object? sender, EventArgs e)
@@ -134,13 +223,24 @@ namespace wer_wird_millionaer
             Color_c = defaultColor;
             Color_d = defaultColor;
             loadText();
+            disabled = false;
+            Cursor = "Hand";
+            currSpannungsTick = 0;
         }
 
         public void CheckAnswer(string answer)
         {
-            Random rnd = new Random();
+            if (disabled) return;
+            disabled = true;
+            Cursor = "Arrow";
+            spannungsTimer.Start();
+            userAnswer = answer;
+        }
+        public void CheckUserAnswer(object? sender, EventArgs e)
+        {
+            delay.Stop();
             bool richtig = false;
-            switch (answer)
+            switch (userAnswer)
             {
                 case "a":
                     richtig = rightAnswer.Equals(Antwort1Text);
@@ -159,21 +259,30 @@ namespace wer_wird_millionaer
                     Color_d = richtig ? correctColor : falseColor;
                     break;
             }
-            dt.Start(); // färbt buttons zurück
             if (richtig)
             {
                 FragenText = "Nice bro";
+                SetStufe(runde);
             }
             else
             {
                 FragenText = "lol";
             }
+            dt.Start();
+        }
+        public void SetStufe(int i)
+        {
+            Margin = $"112 {551 - i*32} 0 0";
+            string[] neu = new string[] { "white", "white", "white", "white", "white", "white", "white", "white", "white", "white", "white", "white", "white", "white", "white" };
+            neu[i]="black";
+            StufenFarben = neu;
         }
         
+
         public void loadText()
         {
-            Questions q = quiz.getQuestionOfCategory(runde/3);
-            FragenText = "Runde:" + runde / 3 + " _ " + q.Prompt;
+            Questions q = quiz.getQuestionOfCategory(runde / 5);
+            FragenText = q.Prompt; // "Runde:" + runde / 5 + " _ " + 
             rightAnswer = q.Options[0];
             List<string> strings = new List<string>();
             while (strings.Count < 4)
