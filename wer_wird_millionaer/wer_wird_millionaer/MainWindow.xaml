@@ -17,7 +17,6 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="5"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -26,13 +25,20 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Image Grid.ColumnSpan="4" Grid.RowSpan="3" Width="1080"  Height="720" Source="/wer_wird_millionaer;component/Images/WWM_background.png" Margin="0,-4,0,-12"/>
-        <Image Grid.ColumnSpan="2" VerticalAlignment="Top" HorizontalAlignment="Left" Width="50"  Height="50" Source="/wer_wird_millionaer;component/Images/remove5050.png" Grid.Column="2" Margin="0,132,0,0" Cursor="Hand">
+        <Image Visibility="{Binding Path=GameVisibility}" VerticalAlignment="Top" HorizontalAlignment="Left" Width="50"  Height="50" Source="/wer_wird_millionaer;component/Images/remove5050.png" Grid.Column="1" Margin="211,16,0,0" Cursor="{Binding Path=JokersCursor[0]}">
             <Image.InputBindings>
-                <MouseBinding MouseAction="LeftClick" Command="{Binding Path=click_answer}" CommandParameter="a"/>
+                <MouseBinding MouseAction="LeftClick" Command="{Binding Path=click_joker}" CommandParameter="0"/>
             </Image.InputBindings>
         </Image>
+        <Image Visibility="{Binding Path=GameVisibility}" VerticalAlignment="Top" HorizontalAlignment="Left" Width="50"  Height="50" Source="/wer_wird_millionaer;component/Images/skipicon.png" Grid.Column="1" Margin="112,14,0,0" Cursor="{Binding Path=JokersCursor[1]}">
+            <Image.InputBindings>
+                <MouseBinding MouseAction="LeftClick" Command="{Binding Path=click_joker}" CommandParameter="1"/>
+            </Image.InputBindings>
+        </Image>
+        <Image Visibility="{Binding Path=JokersUsed[1]}" VerticalAlignment="Top" HorizontalAlignment="Left" Width="80"  Height="80" Source="/wer_wird_millionaer;component/Images/stop.png" Grid.Column="1" Margin="97,0,0,0"/>
+        <Image Visibility="{Binding Path=JokersUsed[0]}" VerticalAlignment="Top" HorizontalAlignment="Left" Width="80"  Height="80" Source="/wer_wird_millionaer;component/Images/stop.png" Grid.Column="1" Margin="195,0,0,0"/>
         <!--Frage Start-->
-        <Polygon HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="2" Fill="#244095" Stroke="Gold" >
+        <Polygon Visibility="{Binding Path=GameVisibility}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="2" Fill="#244095" Stroke="Gold" >
             <Polygon.Points>
                 <Point X="0" Y="60"></Point>
                 <Point X="100" Y="120"></Point>
@@ -42,10 +48,10 @@
                 <Point X="100" Y="30"></Point>
             </Polygon.Points>
         </Polygon>
-        <TextBlock Grid.ColumnSpan="2" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Center" Width="400" Margin="0 30 0 0" DataContext="{Binding Path=FragenText}" IsEnabled="{Binding Path=FragenText}" Text="{Binding}" Foreground="White"/>
+        <TextBlock Visibility="{Binding Path=GameVisibility}" Grid.ColumnSpan="2" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Center" Width="400" Margin="0 30 0 0" DataContext="{Binding Path=FragenText}" IsEnabled="{Binding Path=FragenText}" Text="{Binding}" Foreground="White"/>
         <!--Frage Ende-->
         <!--Antwort1 Start-->
-        <Polygon Stroke="Gold" Grid.Row="1" Grid.Column="0" Fill="{Binding Path=Color_a}" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="{Binding Path=Cursor}">
+        <Polygon Visibility="{Binding Path=GameVisibility}" Stroke="Gold" Grid.Row="1" Grid.Column="0" Fill="{Binding Path=Color_a}" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="{Binding Path=Cursor[0]}">
             <Polygon.InputBindings>
                 <MouseBinding MouseAction="LeftClick" Command="{Binding Path=click_answer}" CommandParameter="a"/>
             </Polygon.InputBindings>
@@ -58,14 +64,14 @@
                 <Point X="70" Y="20"/>
             </Polygon.Points>
         </Polygon>
-        <TextBlock Grid.Row="1" Grid.Column="0" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" Width="200" Margin="0 20 0 0" Text="{Binding Path=Antwort1Text}" Foreground="White" Cursor="{Binding Path=Cursor}">
+        <TextBlock Visibility="{Binding Path=GameVisibility}" Grid.Row="1" Grid.Column="0" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" Width="200" Margin="0 20 0 0" Text="{Binding Path=Antwort1Text}" Foreground="White" Cursor="{Binding Path=Cursor[0]}">
             <TextBlock.InputBindings>
                 <MouseBinding MouseAction="LeftClick" Command="{Binding Path=click_answer}" CommandParameter="a"/>
             </TextBlock.InputBindings>
         </TextBlock>
         <!--Antwort1 Ende-->
         <!--Antwort2 Start-->
-        <Polygon Stroke="Gold" Grid.Row="1" Grid.Column="1" Fill="{Binding Path=Color_b}" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="{Binding Path=Cursor}">
+        <Polygon Visibility="{Binding Path=GameVisibility}" Stroke="Gold" Grid.Row="1" Grid.Column="1" Fill="{Binding Path=Color_b}" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="{Binding Path=Cursor[1]}">
             <Polygon.InputBindings>
                 <MouseBinding MouseAction="LeftClick" Command="{Binding Path=click_answer}" CommandParameter="b"/>
             </Polygon.InputBindings>
@@ -78,14 +84,14 @@
                 <Point X="70" Y="20"/>
             </Polygon.Points>
         </Polygon>
-        <TextBlock Grid.Row="1" Grid.Column="1" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" Width="200" Margin="0 20 0 0" Text="{Binding Path=Antwort2Text}" Foreground="White" Cursor="{Binding Path=Cursor}">
+        <TextBlock Visibility="{Binding Path=GameVisibility}" Grid.Row="1" Grid.Column="1" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" Width="200" Margin="0 20 0 0" Text="{Binding Path=Antwort2Text}" Foreground="White" Cursor="{Binding Path=Cursor[1]}">
             <TextBlock.InputBindings>
                 <MouseBinding MouseAction="LeftClick" Command="{Binding Path=click_answer}" CommandParameter="b"/>
             </TextBlock.InputBindings>
         </TextBlock>
         <!--Antwort2 Ende-->
         <!--Antwort3 Start-->
-        <Polygon Stroke="Gold" Grid.Row="2" Grid.Column="0" Fill="{Binding Path=Color_c}" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="{Binding Path=Cursor}">
+        <Polygon Visibility="{Binding Path=GameVisibility}" Stroke="Gold" Grid.Row="2" Grid.Column="0" Fill="{Binding Path=Color_c}" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="{Binding Path=Cursor[2]}">
             <Polygon.InputBindings>
                 <MouseBinding MouseAction="LeftClick" Command="{Binding Path=click_answer}" CommandParameter="c"/>
             </Polygon.InputBindings>
@@ -98,14 +104,14 @@
                 <Point X="70" Y="20"/>
             </Polygon.Points>
         </Polygon>
-        <TextBlock Grid.Row="2" Grid.Column="0" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" Width="200" Margin="0 20 0 0" Text="{Binding Path=Antwort3Text}" Foreground="White" Cursor="{Binding Path=Cursor}">
+        <TextBlock Visibility="{Binding Path=GameVisibility}" Grid.Row="2" Grid.Column="0" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" Width="200" Margin="0 20 0 0" Text="{Binding Path=Antwort3Text}" Foreground="White" Cursor="{Binding Path=Cursor[2]}">
             <TextBlock.InputBindings>
                 <MouseBinding MouseAction="LeftClick" Command="{Binding Path=click_answer}" CommandParameter="c"/>
             </TextBlock.InputBindings>
         </TextBlock>
         <!--Antwort3 Ende-->
         <!--Antwort4 Start-->
-        <Polygon Stroke="Gold" Grid.Row="2" Grid.Column="1" Fill="{Binding Path=Color_d}" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="{Binding Path=Cursor}">
+        <Polygon Visibility="{Binding Path=GameVisibility}" Stroke="Gold" Grid.Row="2" Grid.Column="1" Fill="{Binding Path=Color_d}" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="{Binding Path=Cursor[3]}">
             <Polygon.InputBindings>
                 <MouseBinding MouseAction="LeftClick" Command="{Binding Path=click_answer}" CommandParameter="d"/>
             </Polygon.InputBindings>
@@ -118,15 +124,15 @@
                 <Point X="70" Y="20"/>
             </Polygon.Points>
         </Polygon>
-        <TextBlock Grid.Row="2" Grid.Column="1" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" Width="200" Margin="0 20 0 0" Text="{Binding Path=Antwort4Text}" Foreground="White" Cursor="{Binding Path=Cursor}">
+        <TextBlock Visibility="{Binding Path=GameVisibility}" Grid.Row="2" Grid.Column="1" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" Width="200" Margin="0 20 0 0" Text="{Binding Path=Antwort4Text}" Foreground="White" Cursor="{Binding Path=Cursor[3]}">
             <TextBlock.InputBindings>
                 <MouseBinding MouseAction="LeftClick" Command="{Binding Path=click_answer}" CommandParameter="d"/>
             </TextBlock.InputBindings>
         </TextBlock>
         <!--Antwort4 Ende-->
 
-        <Border Background="DarkBlue" Grid.Column="3" Grid.RowSpan="3" CornerRadius="3" BorderThickness="2" BorderBrush="Gold"  Width="150" VerticalAlignment="Center" HorizontalAlignment="Center" Height="490"/>
-        <Polygon Grid.Column="3" Grid.RowSpan="3" Fill="Gold" Stroke="Gray" Margin="{Binding Path=Margin}">
+        <Border Visibility="{Binding Path=GameVisibility}" Background="DarkBlue" Grid.Column="2" Grid.RowSpan="3" CornerRadius="3" BorderThickness="2" BorderBrush="Gold"  Width="150" VerticalAlignment="Center" HorizontalAlignment="Center" Height="490"/>
+        <Polygon Visibility="{Binding Path=GameVisibility}" Grid.Column="2" Grid.RowSpan="3" Fill="Gold" Stroke="Gray" Margin="{Binding Path=Margin}">
             <Polygon.Points>
                 <Point X="0" Y="15"/>
                 <Point X="15" Y="0"/>
@@ -136,7 +142,7 @@
                 <Point X="15" Y="30"/>
             </Polygon.Points>
         </Polygon>
-        <Border Grid.Column="3" Grid.RowSpan="3" CornerRadius="3" BorderThickness="2" BorderBrush="Gold"  Width="150" VerticalAlignment="Center" HorizontalAlignment="Center" Height="490">
+        <Border Visibility="{Binding Path=GameVisibility}" Grid.Column="2" Grid.RowSpan="3" CornerRadius="3" BorderThickness="2" BorderBrush="Gold"  Width="150" VerticalAlignment="Center" HorizontalAlignment="Center" Height="490">
             <StackPanel>
                 <Label Height="3"/>
                 <Label Content="€ 1 MILLION" Height="32" Foreground="{Binding Path=StufenFarben[14]}" />
@@ -157,6 +163,14 @@
             </StackPanel>
         </Border>
 
+        <Border Visibility="{Binding Path=MessageBoxVisibility}" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="3" Width="600" Height="400" Background="Blue" CornerRadius="100" BorderBrush="Black" BorderThickness="3">
+            <StackPanel>
+                <TextBlock TextAlignment="Center" Margin="80 80 80 20" FontSize="32" Text="{Binding Path=BoxMessages[0]}"/>
+                <TextBlock FontSize="16" TextAlignment="Center" Text="{Binding Path=BoxMessages[1]}"/>
+                <Button Width="200" Margin="0 50 0 10" Content="{Binding Path=BoxMessages[2]}" Command="{Binding Path=spiel_starten}"/>
+                <Button Width="200" Content="{Binding Path=BoxMessages[3]}" Command="{Binding Path=spiel_beenden}"/>
+            </StackPanel>
+        </Border>
     </Grid>
 
 </Window>

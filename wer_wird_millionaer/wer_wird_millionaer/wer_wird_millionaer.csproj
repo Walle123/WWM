@@ -9,11 +9,15 @@
 
   <ItemGroup>
     <None Remove="Images\remove5050.png" />
+    <None Remove="Images\skipicon.png" />
+    <None Remove="Images\stop.png" />
     <None Remove="WWM_background.png" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="Images\remove5050.png" />
+    <Resource Include="Images\skipicon.png" />
+    <Resource Include="Images\stop.png" />
     <Resource Include="Images\WWM_background.png" />
   </ItemGroup>
 </Project>

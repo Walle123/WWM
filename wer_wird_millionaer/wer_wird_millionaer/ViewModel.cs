@@ -3,8 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Navigation;
@@ -14,13 +16,18 @@ namespace wer_wird_millionaer
 {
     internal class ViewModel : INotifyPropertyChanged
     {
+        public Window window;
         public ICommand click_answer { get; private set; }
+        public ICommand click_joker { get; private set; }
+        public ICommand spiel_starten { get; private set; }
+        public ICommand spiel_beenden { get; private set; }
         DispatcherTimer dt = new DispatcherTimer();
         DispatcherTimer spannungsTimer = new DispatcherTimer();
         DispatcherTimer delay = new DispatcherTimer();
+        DispatcherTimer menuTimer = new DispatcherTimer();
         private string defaultColor = "#244095";
-        private string correctColor = "LightGreen";
-        private string falseColor = "#ff5959";
+        private string correctColor = "#02fa1b";
+        private string falseColor = "#f70217";
         private string spannungColor = "Gold";
         private string color_a;
         private string color_b;
@@ -37,13 +44,68 @@ namespace wer_wird_millionaer
         private string margin = "112 551 0 0";
         private string[] stufenFarben = new string[] {"black", "white", "white", "white", "white", "white", "white", "white", "white", "white", "white", "white", "white", "white", "white" };
         private bool disabled = false;
-        private string cursor = "Hand";
-        private int spannungsTicks = 5;
+        private bool[] jokers = new bool[] { true, true, true };
+        private string[] jokers_cursor = new string[] { "Hand", "Hand", "Hand" };
+        private string[] cursor = new string[] { "Hand", "Hand", "Hand", "Hand" };
+        private string[] jokers_used = new string[] { "Hidden", "Hidden", "Hidden" };
+        private int[] gewinnstufen = new int[] { 50, 100, 200, 300, 500, 1000, 2000, 4000, 8000, 16000, 32000, 64000, 125000, 500000, 1000000 };
+        private int[] sicherheitsStufen = new int[] { 50, 1000, 32000, 1000000 };
+        private string messageBoxVisibility = "Visible";
+        private string gameVisibility = "Hidden";
+        private string[] boxMessages = new string[] { "Wer Wird Millionär", "", "Spiel Starten", "Beenden" };
+        private int spannungsTicks = 9;
         private int currSpannungsTick = 0;
         Random rnd = new Random();
         Quiz quiz = new Quiz();
+        public string GameVisibility
+        {
+            get { return gameVisibility; }
+            set
+            {
+                gameVisibility = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(GameVisibility)));
+            }
+        }
+        public string MessageBoxVisibility
+        {
+            get { return messageBoxVisibility; }
+            set
+            {
+                messageBoxVisibility = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(MessageBoxVisibility)));
+            }
+        }
 
-        public string Cursor
+        public string[] BoxMessages
+        {
+            get { return boxMessages; }
+            set
+            {
+                boxMessages = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BoxMessages)));
+            }
+        }
+
+        public string[] JokersUsed
+        {
+            get { return jokers_used; }
+            set
+            {
+                jokers_used = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(JokersUsed)));
+            }
+        }
+        public string[] JokersCursor
+        {
+            get { return jokers_cursor; }
+            set
+            {
+                jokers_cursor = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(JokersCursor)));
+            }
+        }
+
+        public string[] Cursor
         {
             get { return cursor; }
             set
@@ -153,28 +215,72 @@ namespace wer_wird_millionaer
             }
         }
 
-        public ViewModel()
+        public ViewModel(Window window)
         {
+            this.window = window;
             click_answer = new RelayCommand<string>(CheckAnswer);
+            click_joker = new RelayCommand<string>(Joker_click);
+            spiel_starten = new RelayCommand<string>(SpielStarten);
+            spiel_beenden = new RelayCommand<string>(SpielBeenden);
             dt.Interval = TimeSpan.FromSeconds(2);
             dt.Tick += ResetColor;
-            spannungsTimer.Interval = TimeSpan.FromMilliseconds(200);
+            spannungsTimer.Interval = TimeSpan.FromMilliseconds(100);
             spannungsTimer.Tick += ErzeugeSpannung;
+            menuTimer.Interval = TimeSpan.FromSeconds(5);
+            menuTimer.Tick += WrongAnswer;
             delay.Interval = TimeSpan.FromMilliseconds(50);
-            delay.Tick += CheckUserAnswer;
+            delay.Tick += updateEigenschaften;
             color_a = defaultColor;
             color_b = defaultColor;
             color_c = defaultColor;
             color_d = defaultColor;
+            update();
+        }
+        public void SpielStarten(string s)
+        {
+            quiz.usedQuestions = new List<Questions>();
+            disabled = false;
+            GameVisibility = "Visible";
+            MessageBoxVisibility = "Hidden";
+            color_a = defaultColor;
+            color_b = defaultColor;
+            color_c = defaultColor;
+            color_d = defaultColor;
+            currSpannungsTick = 0;
+            runde = 0;
+            StufenFarben = new string[] { "black", "white", "white", "white", "white", "white", "white", "white", "white", "white", "white", "white", "white", "white", "white" };
+            JokersCursor = new string[] { "Hand", "Hand", "Hand" };
+            Cursor = new string[] { "Hand", "Hand", "Hand", "Hand" };
+            JokersUsed = new string[] { "Hidden", "Hidden", "Hidden" };
             loadText();
+            update();
+        }
+        public void SpielBeenden(string s)
+        {
+            window.Close();
+        }
+        public void update()
+        {
+            delay.Start();
+        }
+
+        public void updateEigenschaften(object? sender, EventArgs e)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(JokersCursor)));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Cursor)));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Color_a)));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Color_b)));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Color_c)));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Color_d)));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(JokersUsed)));
+            delay.Stop();
         }
 
         private void ErzeugeSpannung(object? sender, EventArgs e)
         {
-            if (currSpannungsTick>=spannungsTicks)
+            if (currSpannungsTick == spannungsTicks - 1)
             {
-                spannungsTimer.Stop();
-                delay.Start();
+                spannungsTimer.Interval = TimeSpan.FromSeconds(1);
             }
             if (currSpannungsTick % 2 == 0)
             {
@@ -212,7 +318,21 @@ namespace wer_wird_millionaer
                         break;
                 }
             }
+            if (currSpannungsTick >= spannungsTicks)
+            {
+                spannungsTimer.Stop();
+                CheckUserAnswer();
+                spannungsTimer.Interval = TimeSpan.FromMilliseconds(100);
+            }
             currSpannungsTick++;
+        }
+        public void WrongAnswer(object? sender, EventArgs e)
+        {
+            menuTimer.Stop();
+            FragenText = "";
+            GameVisibility = "Hidden";
+            BoxMessages = new string[] { "Sie haben verloren", $"Sie haben {sicherheitsStufen[runde/5]}€ gewonnen", "Nochmal spielen", "Beenden" };
+            MessageBoxVisibility = "Visible";
         }
 
         private void ResetColor(object? sender, EventArgs e)
@@ -224,21 +344,40 @@ namespace wer_wird_millionaer
             Color_d = defaultColor;
             loadText();
             disabled = false;
-            Cursor = "Hand";
             currSpannungsTick = 0;
+            update();
         }
 
         public void CheckAnswer(string answer)
         {
+            string antwortText = "";
+            switch (answer)
+            {
+                case "a":
+                    antwortText = Antwort1Text;
+                    break;
+                case "b":
+                    antwortText= Antwort2Text;
+                    break;
+                case "c":
+                    antwortText = Antwort3Text;
+                    break;
+                case "d":
+                    antwortText = Antwort4Text;
+                    break;
+            }
+            if (antwortText.Equals(String.Empty))
+            {
+                return;
+            }
             if (disabled) return;
             disabled = true;
-            Cursor = "Arrow";
-            spannungsTimer.Start();
+            Cursor = new string[] { "Arrow", "Arrow", "Arrow", "Arrow" };
             userAnswer = answer;
+            spannungsTimer.Start();
         }
-        public void CheckUserAnswer(object? sender, EventArgs e)
+        public void CheckUserAnswer()
         {
-            delay.Stop();
             bool richtig = false;
             switch (userAnswer)
             {
@@ -261,14 +400,29 @@ namespace wer_wird_millionaer
             }
             if (richtig)
             {
-                FragenText = "Nice bro";
+                FragenText = $"Sehr gut, als nächstes spielen Sie um {gewinnstufen[runde]}€";
                 SetStufe(runde);
+                dt.Start();
+                update();
             }
             else
             {
-                FragenText = "lol";
+                FragenText = "Leider Falsch";
+                if (rightAnswer.Equals(Antwort1Text)){
+                    Color_a = correctColor;
+                }
+                if (rightAnswer.Equals(Antwort2Text)){
+                    Color_b = correctColor;
+                }
+                if (rightAnswer.Equals(Antwort3Text)){
+                    Color_c = correctColor;
+                }
+                if (rightAnswer.Equals(Antwort4Text)){
+                    Color_d = correctColor;
+                }
+
+                menuTimer.Start();
             }
-            dt.Start();
         }
         public void SetStufe(int i)
         {
@@ -276,12 +430,104 @@ namespace wer_wird_millionaer
             string[] neu = new string[] { "white", "white", "white", "white", "white", "white", "white", "white", "white", "white", "white", "white", "white", "white", "white" };
             neu[i]="black";
             StufenFarben = neu;
+            update();
+        }
+        public void Joker_click(string s)
+        {
+            switch (s)
+            {
+                case "0":
+                    if (jokers[0])
+                    {
+                        RemoveTwoAnswers();
+                        jokers[0] = false;
+                        JokersCursor[0] = "Arrow";
+                        JokersUsed[0] = "Visible";
+                    }
+                    break;
+                case "1":
+                    if (jokers[1])
+                    {
+                        SkipJoker();
+                        jokers[1] = false;
+                        JokersCursor[1] = "Arrow";
+                        JokersUsed[1] = "Visible";
+                    }
+                    break;
+                case "2":
+                    if (jokers[2])
+                    {
+                        jokers[2] = false;
+                        JokersCursor[2] = "Arrow";
+                        JokersUsed[2] = "Visible";
+                    }
+                    break;
+            }
+            update();
+        }
+        public void SkipJoker()
+        {
+            loadText();
+            update();
         }
         
+        public void RemoveTwoAnswers()
+        {
+            bool answer_1 = rightAnswer.Equals(Antwort1Text);
+            bool answer_2 = rightAnswer.Equals(Antwort2Text);
+            bool answer_3 = rightAnswer.Equals(Antwort3Text);
+            bool answer_4 = rightAnswer.Equals(Antwort4Text);
+            if (answer_1)
+            {
+                Antwort2Text = String.Empty;
+                Antwort3Text = String.Empty;
+                string[] t = Cursor;
+                t[1] = "Arrow";
+                t[2] = "Arrow";
+                Cursor = t;
+            }
+            if (answer_2)
+            {
+                Antwort4Text = String.Empty;
+                Antwort3Text = String.Empty;
+                string[] t = Cursor;
+                t[3] = "Arrow";
+                t[2] = "Arrow";
+                Cursor = t;
+            }
+            if (answer_3)
+            {
+                Antwort1Text = String.Empty;
+                Antwort2Text = String.Empty;
+                string[] t = Cursor;
+                t[1] = "Arrow";
+                t[0] = "Arrow";
+                Cursor = t;
+            }
+            if (answer_4)
+            {
+                Antwort1Text = String.Empty;
+                Antwort3Text = String.Empty;
+                string[] t = Cursor;
+                t[0] = "Arrow";
+                t[2] = "Arrow";
+                Cursor = t;
+            }
+            update();
+        }
 
         public void loadText()
         {
-            Questions q = quiz.getQuestionOfCategory(runde / 5);
+            Cursor = new string[] { "Hand", "Hand", "Hand", "Hand" };
+            Questions q;
+            if (runde == 14)
+            {
+               q = quiz.getQuestionOfCategory(3);
+            }
+            else
+            {
+               q = quiz.getQuestionOfCategory(runde / 5);
+            }
             FragenText = q.Prompt; // "Runde:" + runde / 5 + " _ " + 
             rightAnswer = q.Options[0];
             List<string> strings = new List<string>();

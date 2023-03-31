@@ -22,7 +22,7 @@ namespace wer_wird_millionaer
         private List<Questions> Killer_Questions { get; set; }
         //internal List<Questions> Questions { get => Questions; set => Questions = value; }
         private Random rnd = new Random();
-        private List<Questions> usedQuestions = new List<Questions>();
+        public List<Questions> usedQuestions = new List<Questions>();
         public Questions getQuestionOfCategory(int i)
         {
             Questions q = null;

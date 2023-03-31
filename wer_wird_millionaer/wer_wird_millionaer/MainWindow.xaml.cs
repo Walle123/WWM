@@ -23,7 +23,7 @@ namespace wer_wird_millionaer
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new ViewModel();
+            DataContext = new ViewModel(this);
 
         }
     }
