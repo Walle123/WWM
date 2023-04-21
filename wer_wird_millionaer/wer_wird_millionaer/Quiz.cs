@@ -14,6 +14,9 @@ using System.Windows.Media.Animation;
 
 namespace wer_wird_millionaer
 {
+    /// <summary>
+    /// Beinhaltet Logik bezüglich der Fragen
+    /// </summary>
     public class Quiz
     {
         private List<Questions> Easy_Questions { get; set; }
@@ -22,10 +25,20 @@ namespace wer_wird_millionaer
         private List<Questions> Killer_Questions { get; set; }
         //internal List<Questions> Questions { get => Questions; set => Questions = value; }
         private Random rnd = new Random();
+
+        /// <summary>
+        /// Sammelt benutze Fragen um Duplikate zu verhindern
+        /// </summary>
         public List<Questions> usedQuestions = new List<Questions>();
+
+        /// <summary>
+        /// Gibt eine unbenutzte Frage einer Kategorie zurück
+        /// </summary>
+        /// <param name="i"></param>
+        /// <returns></returns>
         public Questions getQuestionOfCategory(int i)
         {
-            Questions q = null;
+            Questions q = new Questions("FEHLER", new List<string> { "FEHLER", "FEHLER", "FEHLER", "FEHLER" });
             switch (i)
             {
                 case 0:
@@ -52,13 +65,14 @@ namespace wer_wird_millionaer
                         q = Killer_Questions[rnd.Next(Killer_Questions.Count)];
                     } while (usedQuestions.Contains(q));
                     break;
-                default:
-                    return null;
             }
             usedQuestions.Add(q);
             return q;
         }
 
+        /// <summary>
+        /// Fügt alle Fragen zu den Kategorielisten hinzu
+        /// </summary>
         public Quiz()
         {
             Easy_Questions = new List<Questions>();
@@ -77,7 +91,9 @@ namespace wer_wird_millionaer
             // Add Killer questions
             AddKillerQuestions();
         }
-
+        /// <summary>
+        /// Fügt einfache Fragen zur einfachen Liste hinzu
+        /// </summary>
         private void AddEasyQuestions()
         {
             Easy_Questions.Add(new Questions("Der erste Mensch auf dem Mond war?", new List<string> { "Lance Armstrong", "Neil Armstrong", "Bruce Beinsoft", "Arnold Beinsoft" }));
@@ -97,6 +113,9 @@ namespace wer_wird_millionaer
             Easy_Questions.Add(new Questions("Scotty, der Ingenieur des Raumschiffs Enterprise, war bei den \"Ausflügen\" meist nicht dabei, weil er ...?", new List<string> { "beamte", "angestellte", "selbstständige", "vorgesetzte" }));
         }
 
+        /// <summary>
+        /// Fügt mittlere Fragen zur mittleren Liste hinzu
+        /// </summary>
         private void AddMediumQuestions()
         {
             Medium_Questions.Add(new Questions("Der Bürgermeister welcher Stadt rief einen Wettbewerb über 1Mio. Euro aus um zu beweisen, dass es seine Stadt gibt:", new List<string> { "Bielefeld", "Hamburg", "Rostock", "München" }));
@@ -113,6 +132,9 @@ namespace wer_wird_millionaer
             Medium_Questions.Add(new Questions("Bei der Fußball-Weltmeisterschaft in Katar fiel was - wie im Vorfeld angekündigt - ungewöhnlich aus?", new List<string> { "lange Nachspielzeiten", "gemähte Rasenflächen", "harte Bälle", "hässliche Trikots" }));
         }
 
+        /// <summary>
+        /// Fügt schwere Fragen zur schweren Liste hinzu
+        /// </summary>
         private void AddHardQuestions()
         {
             Hard_Questions.Add(new Questions("Die Fäkalien welches Tieres kommen dem geometrieschen Objekt eines Würfels am nähesten?", new List<string> { "Wombat", "Palmendieb", "Faultier", "Koala" }));
@@ -126,6 +148,9 @@ namespace wer_wird_millionaer
             Hard_Questions.Add(new Questions("Die schwarzfelligen Vertreter welcher Tiere werden umgangssprachlich gleichermaßen als schwarze Panther bezeichnet?", new List<string> { "Leopard & Jaguar", "Gepard & Puma", "Puma & Leopard", "Jaguar & Gepard" }));
         }
 
+        /// <summary>
+        /// Fügt sehr schwere Fragen zur sehr schweren Liste hinzu
+        /// </summary>
         private void AddKillerQuestions()
         {
             Killer_Questions.Add(new Questions("Der Mpemba-Effekt beschreibt", new List<string> { "warmes Wasser gefriert schneller als kaltes", "im Vaccum sinkt die Temperatur konstant zur Dichte", "der Elektronenfluss ist proportional abhängig von der Temperatur", "die Lichtbrechung in argongesättigten Räumen" }));

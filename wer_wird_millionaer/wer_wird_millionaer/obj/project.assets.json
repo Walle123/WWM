@@ -15,11 +15,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\wallenjo\\Source\\Repos\\WWM\\wer_wird_millionaer\\wer_wird_millionaer\\wer_wird_millionaer.csproj",
+      "projectUniqueName": "C:\\Users\\wallenjo\\Source\\Repos\\Walle123\\WWM\\wer_wird_millionaer\\wer_wird_millionaer\\wer_wird_millionaer.csproj",
       "projectName": "wer_wird_millionaer",
-      "projectPath": "C:\\Users\\wallenjo\\Source\\Repos\\WWM\\wer_wird_millionaer\\wer_wird_millionaer\\wer_wird_millionaer.csproj",
+      "projectPath": "C:\\Users\\wallenjo\\Source\\Repos\\Walle123\\WWM\\wer_wird_millionaer\\wer_wird_millionaer\\wer_wird_millionaer.csproj",
       "packagesPath": "C:\\Users\\wallenjo\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\wallenjo\\Source\\Repos\\WWM\\wer_wird_millionaer\\wer_wird_millionaer\\obj\\",
+      "outputPath": "C:\\Users\\wallenjo\\Source\\Repos\\Walle123\\WWM\\wer_wird_millionaer\\wer_wird_millionaer\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",

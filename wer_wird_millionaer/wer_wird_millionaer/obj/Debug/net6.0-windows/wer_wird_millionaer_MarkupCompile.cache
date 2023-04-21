@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\wallenjo\Source\Repos\WWM\wer_wird_millionaer\wer_wird_millionaer\obj\Debug\net6.0-windows\
-wer_wird_millionaer
+C:\Users\wallenjo\Source\Repos\Walle123\WWM\wer_wird_millionaer\wer_wird_millionaer\obj\Debug\net6.0-windows\
+wer_wird_millionaer_4jhrw4hq_wpftmp
 none
 false
-TRACE;DEBUG;NET;NET6_0;NETCOREAPP
-C:\Users\wallenjo\Source\Repos\WWM\wer_wird_millionaer\wer_wird_millionaer\App.xaml
+TRACE;RELEASE;NET;NET6_0;NETCOREAPP
+C:\Users\wallenjo\Source\Repos\Walle123\WWM\wer_wird_millionaer\wer_wird_millionaer\App.xaml
 11407045341
 
-7-463322152
-194-200944676
+9-1963378468
+388-401889352
 MainWindow.xaml;
 
-False
+True
 

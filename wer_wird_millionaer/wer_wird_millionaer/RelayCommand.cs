@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace Bankschalter
 {
-    internal class RelayCommand<T> : ICommand
+    public class RelayCommand<T> : ICommand
     {
         readonly Action<T> _execute = null;
         readonly Predicate<T> _canExecute = null;
